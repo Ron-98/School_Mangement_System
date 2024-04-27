@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SMS_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="StdID" />
+    </Key>
+    <Property Name="StdID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" />
+    <Property Name="LastName" Type="varchar" MaxLength="30" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="DOB" Type="date" />
+    <Property Name="Address" Type="varchar" MaxLength="50" />
+    <Property Name="ContactNo" Type="int" />
+    <Property Name="Enable" Type="bit" />
+  </EntityType>
+  <EntityType Name="StudentSubjects">
+    <Key>
+      <PropertyRef Name="StdID" />
+      <PropertyRef Name="Sub_code" />
+    </Key>
+    <Property Name="StdID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Sub_code" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StudentTeachers">
+    <Key>
+      <PropertyRef Name="StdID" />
+      <PropertyRef Name="TeacherID" />
+    </Key>
+    <Property Name="StdID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TeacherID" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subjects">
+    <Key>
+      <PropertyRef Name="Sub_code" />
+    </Key>
+    <Property Name="Sub_code" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="20" />
+    <Property Name="Enable" Type="bit" />
+  </EntityType>
+  <EntityType Name="Teachers">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+    </Key>
+    <Property Name="TeacherID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" />
+    <Property Name="LastName" Type="varchar" MaxLength="30" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="DOB" Type="date" />
+    <Property Name="Address" Type="varchar" MaxLength="50" />
+    <Property Name="ContactNo" Type="int" />
+    <Property Name="Enable" Type="bit" />
+  </EntityType>
+  <EntityType Name="TeacherSubjects">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+      <PropertyRef Name="Sub_code" />
+    </Key>
+    <Property Name="TeacherID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Sub_code" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__StudentSu__StdID__412EB0B6">
+    <End Role="Students" Type="Self.Students" Multiplicity="1" />
+    <End Role="StudentSubjects" Type="Self.StudentSubjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StdID" />
+      </Principal>
+      <Dependent Role="StudentSubjects">
+        <PropertyRef Name="StdID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentSu__Sub_c__4222D4EF">
+    <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+    <End Role="StudentSubjects" Type="Self.StudentSubjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subjects">
+        <PropertyRef Name="Sub_code" />
+      </Principal>
+      <Dependent Role="StudentSubjects">
+        <PropertyRef Name="Sub_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentTe__StdID__4316F928">
+    <End Role="Students" Type="Self.Students" Multiplicity="1" />
+    <End Role="StudentTeachers" Type="Self.StudentTeachers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StdID" />
+      </Principal>
+      <Dependent Role="StudentTeachers">
+        <PropertyRef Name="StdID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentTe__Teach__440B1D61">
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+    <End Role="StudentTeachers" Type="Self.StudentTeachers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="StudentTeachers">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TeacherSu__Sub_c__44FF419A">
+    <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+    <End Role="TeacherSubjects" Type="Self.TeacherSubjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subjects">
+        <PropertyRef Name="Sub_code" />
+      </Principal>
+      <Dependent Role="TeacherSubjects">
+        <PropertyRef Name="Sub_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TeacherSu__Teach__45F365D3">
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+    <End Role="TeacherSubjects" Type="Self.TeacherSubjects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="TeacherSubjects">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SMS_DBModelStoreContainer">
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentSubjects" EntityType="Self.StudentSubjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentTeachers" EntityType="Self.StudentTeachers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TeacherSubjects" EntityType="Self.TeacherSubjects" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__StudentSu__StdID__412EB0B6" Association="Self.FK__StudentSu__StdID__412EB0B6">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="StudentSubjects" EntitySet="StudentSubjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentSu__Sub_c__4222D4EF" Association="Self.FK__StudentSu__Sub_c__4222D4EF">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="StudentSubjects" EntitySet="StudentSubjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentTe__StdID__4316F928" Association="Self.FK__StudentTe__StdID__4316F928">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="StudentTeachers" EntitySet="StudentTeachers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentTe__Teach__440B1D61" Association="Self.FK__StudentTe__Teach__440B1D61">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="StudentTeachers" EntitySet="StudentTeachers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TeacherSu__Sub_c__44FF419A" Association="Self.FK__TeacherSu__Sub_c__44FF419A">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="TeacherSubjects" EntitySet="TeacherSubjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TeacherSu__Teach__45F365D3" Association="Self.FK__TeacherSu__Teach__45F365D3">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="TeacherSubjects" EntitySet="TeacherSubjects" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

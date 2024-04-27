@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SMS_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StdID" />
+    </Key>
+    <Property Name="StdID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ContactNo" Type="Int32" />
+    <Property Name="Enable" Type="Boolean" />
+    <NavigationProperty Name="Subjects" Relationship="Self.StudentSubjects" FromRole="Students" ToRole="Subjects" />
+    <NavigationProperty Name="Teachers" Relationship="Self.StudentTeachers" FromRole="Students" ToRole="Teachers" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="Sub_code" />
+    </Key>
+    <Property Name="Sub_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Enable" Type="Boolean" />
+    <NavigationProperty Name="Students" Relationship="Self.StudentSubjects" FromRole="Subjects" ToRole="Students" />
+    <NavigationProperty Name="Teachers" Relationship="Self.TeacherSubjects" FromRole="Subjects" ToRole="Teachers" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+    </Key>
+    <Property Name="TeacherID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ContactNo" Type="Int32" />
+    <Property Name="Enable" Type="Boolean" />
+    <NavigationProperty Name="Students" Relationship="Self.StudentTeachers" FromRole="Teachers" ToRole="Students" />
+    <NavigationProperty Name="Subjects" Relationship="Self.TeacherSubjects" FromRole="Teachers" ToRole="Subjects" />
+  </EntityType>
+  <Association Name="StudentSubjects">
+    <End Role="Students" Type="Self.Student" Multiplicity="*" />
+    <End Role="Subjects" Type="Self.Subject" Multiplicity="*" />
+  </Association>
+  <Association Name="StudentTeachers">
+    <End Role="Students" Type="Self.Student" Multiplicity="*" />
+    <End Role="Teachers" Type="Self.Teacher" Multiplicity="*" />
+  </Association>
+  <Association Name="TeacherSubjects">
+    <End Role="Subjects" Type="Self.Subject" Multiplicity="*" />
+    <End Role="Teachers" Type="Self.Teacher" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="SMS_DBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <EntitySet Name="Subjects" EntityType="Self.Subject" />
+    <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+    <AssociationSet Name="StudentSubjects" Association="Self.StudentSubjects">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="Subjects" EntitySet="Subjects" />
+    </AssociationSet>
+    <AssociationSet Name="StudentTeachers" Association="Self.StudentTeachers">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="Teachers" EntitySet="Teachers" />
+    </AssociationSet>
+    <AssociationSet Name="TeacherSubjects" Association="Self.TeacherSubjects">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="Teachers" EntitySet="Teachers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

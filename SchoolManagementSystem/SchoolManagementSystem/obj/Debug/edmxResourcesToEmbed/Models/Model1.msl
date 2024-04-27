@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SMS_DBModelStoreContainer" CdmEntityContainer="SMS_DBEntities">
+    <EntitySetMapping Name="Students">
+      <EntityTypeMapping TypeName="SMS_DBModel.Student">
+        <MappingFragment StoreEntitySet="Students">
+          <ScalarProperty Name="StdID" ColumnName="StdID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Enable" ColumnName="Enable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subjects">
+      <EntityTypeMapping TypeName="SMS_DBModel.Subject">
+        <MappingFragment StoreEntitySet="Subjects">
+          <ScalarProperty Name="Sub_code" ColumnName="Sub_code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Enable" ColumnName="Enable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teachers">
+      <EntityTypeMapping TypeName="SMS_DBModel.Teacher">
+        <MappingFragment StoreEntitySet="Teachers">
+          <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Enable" ColumnName="Enable" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="StudentSubjects" TypeName="SMS_DBModel.StudentSubjects" StoreEntitySet="StudentSubjects">
+      <EndProperty Name="Students">
+        <ScalarProperty Name="StdID" ColumnName="StdID" />
+      </EndProperty>
+      <EndProperty Name="Subjects">
+        <ScalarProperty Name="Sub_code" ColumnName="Sub_code" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="StudentTeachers" TypeName="SMS_DBModel.StudentTeachers" StoreEntitySet="StudentTeachers">
+      <EndProperty Name="Students">
+        <ScalarProperty Name="StdID" ColumnName="StdID" />
+      </EndProperty>
+      <EndProperty Name="Teachers">
+        <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TeacherSubjects" TypeName="SMS_DBModel.TeacherSubjects" StoreEntitySet="TeacherSubjects">
+      <EndProperty Name="Subjects">
+        <ScalarProperty Name="Sub_code" ColumnName="Sub_code" />
+      </EndProperty>
+      <EndProperty Name="Teachers">
+        <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
