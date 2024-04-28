@@ -79,3 +79,4 @@ C:\Users\Ron F C\Desktop\Intern\Task 3\SchoolManagementSystem\SchoolManagementSy
 C:\Users\Ron F C\Desktop\Intern\Task 3\SchoolManagementSystem\SchoolManagementSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Ron F C\Desktop\Intern\Task 3\SchoolManagementSystem\SchoolManagementSystem\obj\Debug\SchoolManagementSystem.dll
 C:\Users\Ron F C\Desktop\Intern\Task 3\SchoolManagementSystem\SchoolManagementSystem\obj\Debug\SchoolManagementSystem.pdb
+C:\Users\Ron F C\Desktop\Intern\Task 3\SchoolManagementSystem\SchoolManagementSystem\obj\Debug\SchoolManagementSystem.csprojResolveAssemblyReference.cache
