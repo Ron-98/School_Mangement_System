@@ -4,71 +4,79 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h3 class="h3-heading"><center>Student Details</center></h3>
+<br />
 
-<div>
-    <h4>Student</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+<div class="container detail-container">
+    <center>
+        <h4>Student</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DOB)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DOB)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DOB)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DOB)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactNo)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactNo)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ContactNo)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.ContactNo)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Enable)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Enable)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Enable)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Enable)
+            </dd>
 
-    </dl>
+        </dl>
+    </center>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.StdID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<br />
+
+<div class="back-button">
+    <p>
+        <button class="btn">@Html.ActionLink("Edit", "Edit", new { id = Model.StdID }) </button> |
+        <button class="btn">@Html.ActionLink("Back to List", "Index")</button>
+    </p>
+</div>

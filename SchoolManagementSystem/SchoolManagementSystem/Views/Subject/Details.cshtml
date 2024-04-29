@@ -4,31 +4,39 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h3 class="h3-heading"> <center>Subject Details</center></h3>
+<br />
 
-<div>
-    <h4>Subject</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+<div class="container detail-container">
+    <center>
+        <h4>Subject</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Enable)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Enable)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Enable)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Enable)
+            </dd>
 
-    </dl>
+        </dl>
+    </center>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Sub_code }) |
-    @Html.ActionLink("Back to List", "Index")
+
+<br />
+
+<div class="back-button">
+    <p>
+        <button class="btn">@Html.ActionLink("Edit", "Edit", new { id = Model.Sub_code }) </button> |
+        <button class="btn">@Html.ActionLink("Back to List", "Index")</button>
 </p>
+</div>
