@@ -20,17 +20,19 @@
                         <span class="icon-bar"></span>
                     </button>
                     
-                        @Html.ActionLink("SMS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        <div class="nav-brand">
+                            <a href="/Home/Index"><img src="~/Content/images/logo.jpg" alt="Logo" style="padding:5%;" /></a>
+                        </div>
                    
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("Student", "Index", "Student")</li>
                         <li>@Html.ActionLink("Teacher", "Index", "Teacher")</li>
                         <li>@Html.ActionLink("Subject", "Index", "Subject")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     </ul>
 
                 </div>
@@ -40,11 +42,15 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        
+        
+        
+        
 
 
-        <div class="container fixed-bottom">
+        <div class="container footer">
             <footer>
+                <hr />
                 <p>&copy; @DateTime.Now.Year - Student Management Application</p>
             </footer>
         </div>

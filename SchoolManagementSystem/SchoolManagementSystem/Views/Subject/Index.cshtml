@@ -38,10 +38,10 @@
             @Html.DisplayFor(modelItem => item.Enable)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Sub_code }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Sub_code }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Sub_code })
-        </td>
+            <i class="bi bi-pen small-icons"></i> @Html.ActionLink("Edit", "Edit", new { id = item.Sub_code }) |
+            <i class="bi bi-ticket-detailed small-icons"></i> @Html.ActionLink("Details", "Details", new { id = item.Sub_code }) |
+            <i class="bi bi-trash small-icons"></i>  @Html.ActionLink("Delete", "Delete", new { id = item.Sub_code })
+</td>
     </tr>
 }
 

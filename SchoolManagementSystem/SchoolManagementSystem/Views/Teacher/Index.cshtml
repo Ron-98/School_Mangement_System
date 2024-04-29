@@ -69,9 +69,9 @@
             @Html.DisplayFor(modelItem => item.Enable)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TeacherID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TeacherID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TeacherID })
+            <i class="bi bi-pen small-icons"></i> @Html.ActionLink("Edit", "Edit", new { id=item.TeacherID }) |
+            <i class="bi bi-ticket-detailed small-icons"></i> @Html.ActionLink("Details", "Details", new { id=item.TeacherID }) |
+            <i class="bi bi-trash small-icons"></i> @Html.ActionLink("Delete", "Delete", new { id=item.TeacherID })
         </td>
     </tr>
 }

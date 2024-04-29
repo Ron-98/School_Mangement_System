@@ -15,7 +15,7 @@
 </div>
 
 <br />
-<table class="table table-hover table-striped">
+<table class="table table-hover table-striped table-responsive">
     <thead>
         <tr class="table-heading">
             <th>
@@ -67,9 +67,9 @@
             @Html.DisplayFor(modelItem => item.Enable)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.StdID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.StdID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.StdID })
+            <i class="bi bi-pen small-icons"></i> @Html.ActionLink("Edit", "Edit", new { id=item.StdID }) |
+            <i class="bi bi-ticket-detailed small-icons"></i> @Html.ActionLink("Details", "Details", new { id=item.StdID }) |
+            <i class="bi bi-trash small-icons"></i> @Html.ActionLink("Delete", "Delete", new { id=item.StdID })
         </td>
     </tr>
 }
