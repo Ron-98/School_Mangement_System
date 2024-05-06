@@ -4,6 +4,22 @@
     ViewBag.Title = "Create";
 }
 
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-2.0.0.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#DOB").datepicker({
+                changeMonth: true,
+                changeYear:true
+
+            });
+        });
+    </script>
+}
+
 <h3 class="h3-heading">Create a New Teacher</h3>
 <br />
 
@@ -44,7 +60,11 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownList("Gender", new List<SelectListItem>{
+                         new SelectListItem{ Text="Male", Value="Male"},
+                         new SelectListItem{ Text="Female", Value="Female"},
+                         new SelectListItem{ Text=" Others", Value="Others"}
+                            }, "--- Select ---", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -52,7 +72,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.DOB, "{0:mm-dd-yyyy}", new { htmlAttributes = new { @class = "form-control", placeholder = "MM-DD-YYYY" } })
                         @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -76,8 +96,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Enable, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.Enable)
+                        <div>
+                            @Html.EditorFor(model => model.Enable, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Enable, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -90,14 +110,16 @@
                 </div>
             </div>
         </center>
+        
+
+        <div class="back-button">
+            <button class="btn btn-default secondary-btn">@Html.ActionLink("Back to List", "Index")</button>
+        </div>
+        <br />
         </div>
         }
         
-    <br />
-        <div class="back-button">
-            <button class="btn">@Html.ActionLink("Back to List", "Index")</button>
-        </div>
+   
+        
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+       

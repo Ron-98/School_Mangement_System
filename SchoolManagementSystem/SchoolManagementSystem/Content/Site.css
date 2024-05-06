@@ -85,13 +85,31 @@ footer{
     text-align:center;
 }
 
-.btn {
-    background-color:rgb(25, 118, 211);
-}
 
 .h3-heading {
     color:rgb(25, 118, 211);
 }
+
+.h1-heading {
+    color:rgb(25, 118, 211);
+}
+
+.body-title {
+    display:flex;
+    justify-content:center; 
+    border:2px solid rgb(25, 118, 211);  
+    padding:10px;
+    width:60vw;
+    border-radius:20px;
+}
+
+    .body-title img {
+        height:100px;
+        width:100px;
+        padding-right:10px;
+        border-radius:20px;
+    }
+
 
 .btn-create {
     background-color:rgb(25, 118, 211);
@@ -136,12 +154,13 @@ footer{
 
 .back-button a{
     text-decoration:none;
-    color:white;
+    color:black;
 }
 
 .back-button {
     text-align:right;
     padding-right:5%;
+    
 }
 
 .btn-create-in .btn {
@@ -170,14 +189,43 @@ footer{
 
 footer hr {
     border:2px solid rgb(25, 118, 211);
+   
 }
 
 footer {
     position:relative;
     bottom:0;
-    width:100%;
+    
+    
+    
 }
 
 .small-icons {
-    color:rgb(25, 118, 211);
+    color:white;
+}
+
+
+
+.btn a {
+    text-decoration:none;
+    color:White;   
+ }
+
+.secondary-btn a {
+    color:black;
+}
+
+.dl {
+    text-align:justify;
+}
+
+.alloc-hr {
+    border:1px solid rgb(25, 118, 211);
+}
+
+.form-border {
+    border:1px solid rgb(25, 118, 211);
+    display:block;
+    width:auto;
+    border-radius:20px;
 }

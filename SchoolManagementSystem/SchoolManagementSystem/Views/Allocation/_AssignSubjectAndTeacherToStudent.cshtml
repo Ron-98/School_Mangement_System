@@ -1,0 +1,62 @@
+﻿﻿@model List<SchoolManagementSystem.Models.Subject>
+
+
+<h4>Add New Subject & Assign to Student</h4>
+<form id="studentAssignmentForm">
+    <div class="form-group">
+        <label for="studentId">Student Name:</label>
+        <select class="form-control" id="studentId" name="studentId" required>
+            <option value="" disabled selected>Select Student</option>
+            @foreach (var student in ViewBag.StudentIdList)
+            {
+                <option value="@student.Value">@student.Text</option>
+            }
+        </select>
+        <div id="studentId-error" class="text-danger"></div>
+    </div>
+    <div class="form-group">
+        <label for="subjectCode">Subject:</label>
+        <select class="form-control" id="subjectCode" name="subjectCode" required>
+            <option value="" disabled selected>Select Subject Code</option>
+            @foreach (var subject in ViewBag.Subjects)
+            {
+                <option value="@subject.Value">@subject.Text</option>
+            }
+        </select>
+    </div>
+    <div class="form-group" id="teacherDropdown">
+        <label for="teacherId">Teacher Name:</label>
+        <select class="form-control" id="teacherId" name="teacherId" required>
+            <option value="" disabled selected>Select Teacher</option>
+            <!-- Teacher options will be dynamically populated here -->
+        </select>
+        <div id="teacherId-error" class="text-danger"></div>
+    </div>
+
+    <button type="submit" id="assignSubjectButton" class="btn btn-primary">Assign Subject</button>
+</form>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // JavaScript code to handle AJAX request
+
+        $(document).ready(function () {
+            $('#subjectCode').change(function () {
+                var subjectCode = $(this).val();
+                $.ajax({
+                    url: '/Allocation/GetTeachersForSubject',
+                    type: 'GET',
+                    data: { subjectCode: subjectCode },
+                    success: function (data) {
+                        $('#teacherId').html(data);
+                    },
+                    error: function () {
+                        alert('An error occurred while fetching teachers.');
+                    }
+                });
+            });
+        });
+
+    </script>
+}

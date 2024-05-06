@@ -1,7 +1,282 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model SchoolManagementSystem.Models.Student
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewBag.Title = "Students";
+}
+
+<h2>Students</h2>
+<hr />
+
+<div class="panel">
+    <div class="panel-heading">
+        <p>
+            <button id="addNew" class="btn btn-primary">Add New Student</button>
+        </p>
+    </div>
+</div>
+
+<div class="panel" id="studentDetails">
+    <div class="panel-body">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.StdID)</th>
+                    <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                    <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                    <th>@Html.DisplayNameFor(model => model.DOB)</th>
+                    <th>@Html.DisplayNameFor(model => model.Gender)</th>
+                    <th>@Html.DisplayNameFor(model => model.Address)</th>
+                    <th>@Html.DisplayNameFor(model => model.ContactNo)</th>
+                    <th>@Html.DisplayNameFor(model => model.Enable)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="subjectModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" id="subjectDetails"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeSubjectModal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="addStudentForm" style="display: none;">
+    @Html.Partial("_try")
+</div>
+<div id="editStudentForm" style="display: none;">
+    @Html.Partial("_try")
+</div>
+<button id="backButton" class="btn btn-secondary m-2" style="display: none;">Back</button>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            $('#addNew').click(function () {
+                $('#addStudentForm').show();
+                $('#studentDetails').hide();
+                $('#addNew').hide();
+                $('#backButton').show();
+            });
+
+            // Event listener for the "Back" button
+            $('#backButton').click(function () {
+                $('#addStudentForm').hide();
+                $('#addStudentForm').find('input[type=text], input[type=number], input[type=date], select').val('');
+                $('#studentDetails').show();
+                $('#editStudentForm').hide();
+                $('#addNew').show();
+                $('#backButton').hide();
+            });
+
+
+            //submit form function call
+            $('#addStudentForm').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+                addStudent(formData);
+            });
+
+            //validation
+            $('#StdID').change(function () {
+                var stdID = $(this).val();
+                $.ajax({
+                    url: '/Student/IsStdIDAvailable',
+                    type: 'GET',
+                    data: { stdID: stdID },
+                    success: function (response) {
+                        $('#stdID-error').text(response ? '' : 'StdID already exists.');
+                    }
+                });
+            });
+
+            //date picker
+            $("#DOB").datepicker({
+                dateFormat: "mm-dd-yy", // Set the date format
+                changeYear: true, // Allow changing the year
+                changeMonth: true, // Allow changing the month
+                yearRange: "-100:+0", // Allow selecting a range of 100 years ago to the current year
+                maxDate: "0" // Set the maximum selectable date to today
+            });
+
+            $('#closeSubjectModal').click(function () {
+                $('#subjectModal').modal('hide'); // Manually hide the modal
+            });
+
+            // Load initial data
+            loadData();
+        });
+
+        function loadData() {
+            function formatDate(dateString) {
+                var timestamp = parseInt(dateString.replace("/Date(", "").replace(")/", ""));
+                var date = new Date(timestamp);
+                var formattedDate = date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2, '0') + '-' + date.getDate().toString().padStart(2, '0');
+                return formattedDate;
+            }
+            $.ajax({
+                url: '/Student/AllStudent',
+                type: 'GET',
+                success: function (data) {
+                    $('#tableBody').empty();
+                    $.each(data.data, function (index, item) {
+                        var editUrl = '/Student/EditStudent/' + item.StdID;
+                        var deleteUrl = '/Student/Delete/' + item.StdID;
+                        var row = '<tr>' +
+                            '<td>' + item.StdID + '</td>' +
+                            '<td>' + item.FirstName + '</td>' +
+                            '<td>' + item.LastName + '</td>' +
+                            '<td>' + formatDate(item.DOB) + '</td>' +
+                            '<td>' + item.Gender + '</td>' +
+                            '<td>' + item.Address + '</td>' +
+                            '<td>' + item.ContactNo + '</td>' +
+                            '<td>' + item.Enable + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-primary" onclick="editStudent(\'' + item.StdID + '\')">Edit</button> ' +
+                            '<button type="button" class="btn btn-danger" onclick="deleteStudent(\'' + item.StdID + '\')">Delete</button> ' +
+                            '<button type="button" class="btn btn-info" onclick="moreDetails(\'' + item.StdID + '\')">Details </button> ' +
+                            '</td>' +
+                            '</tr>';
+                        $('#tableBody').append(row);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    Swal.fire('Error!', 'An error occurred while loading data.', 'error');
+                }
+            });
+        }
+
+        function deleteStudent(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Student/DeleteStudent/' + id,
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#tableBody tr:has(td:contains(' + id + '))').remove();
+                                Swal.fire('Deleted!', 'Record deleted successfully.', 'success');
+                            } else {
+                                Swal.fire('Error!', response.message, 'error');
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            Swal.fire('Error!', 'An error occurred while deleting the student.', 'error');
+                        }
+                    });
+                }
+            });
+        }
+        function addStudentSuccess(response) {
+            if (response.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message,
+                    showCancelButton: false,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        loadData();
+                        $('#addStudentForm').hide();
+                        $('#addStudentForm').find('input[type=text], input[type=number], input[type=date], select').val(''); // Clear form fields
+                        $('#studentDetails').show();
+                        $('#addNew').show();
+                        $('#backButton').hide();
+                    }
+                });
+            } else {
+                Swal.fire({ icon: 'error', title: 'Error', text: response.message });
+            }
+        }
+
+
+        function addStudentFailure(error) {
+            console.log(error);
+            Swal.fire('Error!', 'An error occurred while adding the student.', 'error');
+        }
+
+        function addStudent(studentData) {
+            $.ajax({
+                url: '/Student/AddStudent',
+                type: 'POST',
+                data: studentData,
+                success: addStudentSuccess,
+                error: addStudentFailure
+            });
+        }
+
+        function moreDetails(id) {
+            $.ajax({
+                url: '/Student/StudentSubjects/' + id,
+                type: 'GET',
+                success: function (response) {
+                    if (response) {
+                        $('#subjectDetails').html(response);
+                    } else {
+                        $('#subjectDetails').html('<p>No subjects found for this student.</p>');
+                    }
+                    $('#subjectModal').modal('show');
+                },
+                error: function () {
+                    $('#subjectDetails').html('<p>An error occurred while fetching subjects.</p>');
+                    $('#subjectModal').modal('show');
+                }
+            });
+        }
+
+        function editStudent(id) {
+            $.ajax({
+                url: '/Student/EditStudent/' + id,
+                type: 'GET',
+                success: editStudentSuccess,
+                error: editStudentFailure
+            });
+        }
+
+        function editStudentSuccess(data) {
+            $('#studentDetails').html(data);
+            $('#editStudentForm').hide();
+            $('#backButton').hide();
+            $('#studentDetails').show();
+            loadData(); // Load data after successful update
+        }
+
+
+        function editStudentFailure(xhr, status, error) {
+            // Handle failure response
+            console.error("Error editing student:", error);
+            Swal.fire('Error!', 'An error occurred while fetching student details.', 'error');
+        }
+
+
+
+    </script>
+}

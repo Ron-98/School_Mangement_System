@@ -55,6 +55,8 @@ namespace SchoolManagementSystem.Controllers
                 return RedirectToAction("Index");
             }
 
+            
+
             return View(student);
         }
 
@@ -89,7 +91,7 @@ namespace SchoolManagementSystem.Controllers
             return View(student);
         }
 
-        // GET: Student/Delete/5
+        //GET: Student/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -104,13 +106,13 @@ namespace SchoolManagementSystem.Controllers
             return View(student);
         }
 
-        // POST: Student/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        //POST: Student/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult RemoveStudent(Student s)
         {
-            Student student = db.Students.Find(id);
-            db.Students.Remove(student);
+            Student ss = db.Students.Where(x => x.StdID == s.StdID).FirstOrDefault();
+            db.Students.Remove(ss);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -123,5 +125,85 @@ namespace SchoolManagementSystem.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        //Delete
+        //public ActionResult DeleteStudent(string id)
+        //{
+        //   try
+        //   {
+        //       var student = db.Students.Find(id);
+        //        if (student == null)
+        //      {
+        //           return Json(new { success = false, message = "Student not found." });
+        //        }
+
+        //       db.Students.Remove(student);
+        //        db.SaveChanges();
+
+        //       return Json(new { success = true, message = "Student deleted successfully." });
+        //   }
+        //    catch (Exception ex)
+        //      {
+        //        return Json(new { success = false, message = "An error occurred while deleting the student: " + ex.Message });
+        //   }
+        //}
+
+
+        public ActionResult StudentSubjects(string id)
+        {
+            var student = db.Students
+                             .Include(s => s.Subjects.Select(sub => sub.Teachers))
+                             .FirstOrDefault(s => s.StdID == id);
+
+            if (student == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Explicitly load students for each subject
+            foreach (var subject in student.Subjects)
+            {
+                db.Entry(subject).Collection(s => s.Students).Load();
+            }
+
+            return View("_Details",student);
+        }
+
+
+        public JsonResult IsStdIDAvailable(string stdID)
+        {
+            bool isAvailable = !db.Students.Any(s => s.StdID == stdID);
+            return Json(isAvailable, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult ToggleEnable(string id, bool enable)
+        {
+            try
+            {
+                var student = db.Students.Find(id);
+                if (student == null)
+                {
+                    return Json(new { success = false, message = "Student not found." });
+                }
+
+                student.Enable = enable;
+                db.SaveChanges();
+
+                return Json(new { success = true, message = enable ? "Student enabled successfully." : "Student disabled successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred: " + ex.Message });
+            }
+        }
+
+
+
+
+
     }
 }

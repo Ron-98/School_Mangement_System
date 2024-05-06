@@ -19,6 +19,7 @@ namespace SchoolManagementSystem.Models
         {
             this.Students = new HashSet<Student>();
             this.Subjects = new HashSet<Subject>();
+            this.Allocations = new HashSet<Allocation>();
         }
     
         public string TeacherID { get; set; }
@@ -34,5 +35,7 @@ namespace SchoolManagementSystem.Models
         public virtual ICollection<Student> Students { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subject> Subjects { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Allocation> Allocations { get; set; }
     }
 }

@@ -4,10 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="~/Scripts/jquery-2.0.0.min.js"></script>
+        <script src="~/Scripts/jquery-ui-1.13.2.min.js"></script>
+        <script>
+        $(document).ready(function () {
+            $("#DOB").datepicker({
+                changeMonth: true,
+                changeYear:true
 
+            });
+        });
+        </script>
+    }
 </head>
 <body>
     <div class="class=" container-fluid">
@@ -32,7 +47,7 @@
                         <li>@Html.ActionLink("Student", "Index", "Student")</li>
                         <li>@Html.ActionLink("Teacher", "Index", "Teacher")</li>
                         <li>@Html.ActionLink("Subject", "Index", "Subject")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Allocation", "Allocation", "Allocation")</li>
                     </ul>
 
                 </div>
@@ -48,15 +63,18 @@
         
 
 
-        <div class="container footer">
-            <footer>
-                <hr />
-                <p>&copy; @DateTime.Now.Year - Student Management Application</p>
-            </footer>
-        </div>
+        
     
     
     
+    </div>
+
+    <div class="container footer">
+        
+        <footer>
+            <hr />
+            <p>&copy; @DateTime.Now.Year - Student Management Application</p>
+        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

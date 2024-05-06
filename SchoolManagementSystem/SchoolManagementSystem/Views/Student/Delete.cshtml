@@ -14,6 +14,12 @@
         <hr />
         <dl class="dl-horizontal">
             <dt>
+                @Html.DisplayNameFor(model => model.StdID)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.StdID)
+            </dd>
+            <dt>
                 @Html.DisplayNameFor(model => model.FirstName)
             </dt>
 
@@ -72,17 +78,63 @@
         </dl>
     </center>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("RemoveStudent", "Student", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-    }
- </div>
-<br />
-        
-    <div class="form-actions no-color mid-button">
-        
-        <button class="btn"> @Html.ActionLink("Delete", "Delete")</button> |
-        <button class="btn"> @Html.ActionLink("Back to List", "Index")</button>
-    </div>
-    
+        @Html.HiddenFor(Model => Model.StdID)
+        <div class="form-actions no-color mid-button">
 
+            @*<button type="button" class="btn btn-default secondary-btn"> @Html.ActionLink("Delete", "DeleteConfirmed")</button>*@
+            @*<button type="button" class="btn btn-danger" onclick="deleteStudent(model.StdID)">Delete</button> |*@
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <button type="button" class="btn btn-default secondary-btn"> @Html.ActionLink("Back to List", "Index")</button>
+        </div>
+        <br />
+
+    }
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        function deleteStudent(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Student/DeleteStudent/' + id,
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#tableBody tr:has(td:contains(' + id + '))').remove();
+                                Swal.fire('Deleted!', 'Record deleted successfully.', 'success');
+                            } else {
+                                Swal.fire('Error!', response.message, 'error');
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            Swal.fire('Error!', 'An error occurred while deleting the student.', 'error');
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

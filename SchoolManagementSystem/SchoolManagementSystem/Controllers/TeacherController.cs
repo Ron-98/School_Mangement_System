@@ -123,5 +123,32 @@ namespace SchoolManagementSystem.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        public ActionResult TeacherDetails(string id)
+        {
+            var teacher = db.Teachers
+                             .Include(s => s.Subjects.Select(sub => sub.Teachers))
+                             .FirstOrDefault(s => s.TeacherID == id);
+
+            var stdcount = db.Teachers
+                             .Include(s => s.Students.Select(sub => sub.Teachers))
+                             .FirstOrDefault(s => s.TeacherID == id);
+
+            if (teacher == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Explicitly load subjects for each teacher
+            foreach (var subject in teacher.Subjects)
+            {
+                db.Entry(subject).Collection(s => s.Students).Load();
+            }
+
+            return View("_partial", teacher);
+        }
+
+
     }
 }

@@ -11,6 +11,11 @@
         <AssociationConnector Association="SMS_DBModel.StudentSubjects" ManuallyRouted="false" />
         <AssociationConnector Association="SMS_DBModel.StudentTeachers" ManuallyRouted="false" />
         <AssociationConnector Association="SMS_DBModel.TeacherSubjects" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SMS_DBModel.Allocation" Width="1.5" PointX="7.5" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="SMS_DBModel.FK_Allocation_Allocation" />
+        <AssociationConnector Association="SMS_DBModel.FK_Allocation_Students" />
+        <AssociationConnector Association="SMS_DBModel.FK_Allocation_Subjects" />
+        <AssociationConnector Association="SMS_DBModel.FK_Allocation_Teachers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

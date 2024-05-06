@@ -28,5 +28,7 @@ namespace SchoolManagementSystem.Models
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
+        public virtual DbSet<Allocation> Allocations { get; set; }
+        public object Student { get; internal set; }
     }
 }

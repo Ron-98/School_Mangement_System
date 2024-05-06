@@ -9,9 +9,11 @@
 
 namespace SchoolManagementSystem.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     public partial class Student
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,20 +21,43 @@ namespace SchoolManagementSystem.Models
         {
             this.Subjects = new HashSet<Subject>();
             this.Teachers = new HashSet<Teacher>();
+            this.Allocations = new HashSet<Allocation>();
         }
-    
+        
+        [Required(ErrorMessage ="This Fiels is Required")]
+        [DisplayName("Student ID")]
         public string StdID { get; set; }
+
+        [Required(ErrorMessage = "This Fiels is Required")]
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "This Fiels is Required")]
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "This Fiels is Required")]
         public string Gender { get; set; }
+
+        [Required(ErrorMessage = "This Fiels is Required")]
+        [DisplayName("Date Of Birth")]
         public Nullable<System.DateTime> DOB { get; set; }
+
+        [Required(ErrorMessage = "This Fiels is Required")]
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "This Fiels is Required")]
+        [DisplayName("Contact Number")]
         public Nullable<int> ContactNo { get; set; }
-        public Nullable<bool> Enable { get; set; }
+
+        
+        public bool Enable { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subject> Subjects { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Teacher> Teachers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Allocation> Allocations { get; set; }
     }
 }

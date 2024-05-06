@@ -62,5 +62,18 @@
         <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Allocations">
+      <EntityTypeMapping TypeName="SMS_DBModel.Allocation">
+        <MappingFragment StoreEntitySet="Allocation">
+          <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="TeacherName" ColumnName="TeacherName" />
+          <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+          <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="AllocationID" ColumnName="AllocationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -14,6 +14,7 @@
     <Property Name="Enable" Type="Boolean" />
     <NavigationProperty Name="Subjects" Relationship="Self.StudentSubjects" FromRole="Students" ToRole="Subjects" />
     <NavigationProperty Name="Teachers" Relationship="Self.StudentTeachers" FromRole="Students" ToRole="Teachers" />
+    <NavigationProperty Name="Allocations" Relationship="SMS_DBModel.FK_Allocation_Students" FromRole="Student" ToRole="Allocation" />
   </EntityType>
   <EntityType Name="Subject">
     <Key>
@@ -24,6 +25,7 @@
     <Property Name="Enable" Type="Boolean" />
     <NavigationProperty Name="Students" Relationship="Self.StudentSubjects" FromRole="Subjects" ToRole="Students" />
     <NavigationProperty Name="Teachers" Relationship="Self.TeacherSubjects" FromRole="Subjects" ToRole="Teachers" />
+    <NavigationProperty Name="Allocations" Relationship="SMS_DBModel.FK_Allocation_Subjects" FromRole="Subject" ToRole="Allocation" />
   </EntityType>
   <EntityType Name="Teacher">
     <Key>
@@ -39,6 +41,7 @@
     <Property Name="Enable" Type="Boolean" />
     <NavigationProperty Name="Students" Relationship="Self.StudentTeachers" FromRole="Teachers" ToRole="Students" />
     <NavigationProperty Name="Subjects" Relationship="Self.TeacherSubjects" FromRole="Teachers" ToRole="Subjects" />
+    <NavigationProperty Name="Allocations" Relationship="SMS_DBModel.FK_Allocation_Teachers" FromRole="Teacher" ToRole="Allocation" />
   </EntityType>
   <Association Name="StudentSubjects">
     <End Role="Students" Type="Self.Student" Multiplicity="*" />
@@ -68,5 +71,85 @@
       <End Role="Subjects" EntitySet="Subjects" />
       <End Role="Teachers" EntitySet="Teachers" />
     </AssociationSet>
+    <EntitySet Name="Allocations" EntityType="SMS_DBModel.Allocation" />
+    <AssociationSet Name="FK_Allocation_Allocation" Association="SMS_DBModel.FK_Allocation_Allocation">
+      <End Role="Allocation" EntitySet="Allocations" />
+      <End Role="Allocation1" EntitySet="Allocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Students" Association="SMS_DBModel.FK_Allocation_Students">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Allocation" EntitySet="Allocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Subjects" Association="SMS_DBModel.FK_Allocation_Subjects">
+      <End Role="Subject" EntitySet="Subjects" />
+      <End Role="Allocation" EntitySet="Allocations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Teachers" Association="SMS_DBModel.FK_Allocation_Teachers">
+      <End Role="Teacher" EntitySet="Teachers" />
+      <End Role="Allocation" EntitySet="Allocations" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Allocation">
+    <Key>
+      <PropertyRef Name="AllocationID" />
+    </Key>
+    <Property Name="AllocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="StudentName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="TeacherID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="TeacherName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="SubjectID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="SubjectName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Student" Relationship="SMS_DBModel.FK_Allocation_Students" FromRole="Allocation" ToRole="Student" />
+    <NavigationProperty Name="Subject" Relationship="SMS_DBModel.FK_Allocation_Subjects" FromRole="Allocation" ToRole="Subject" />
+    <NavigationProperty Name="Teacher" Relationship="SMS_DBModel.FK_Allocation_Teachers" FromRole="Allocation" ToRole="Teacher" />
+  </EntityType>
+  <Association Name="FK_Allocation_Allocation">
+    <End Type="SMS_DBModel.Allocation" Role="Allocation" Multiplicity="1" />
+    <End Type="SMS_DBModel.Allocation" Role="Allocation1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Allocation">
+        <PropertyRef Name="AllocationID" />
+      </Principal>
+      <Dependent Role="Allocation1">
+        <PropertyRef Name="AllocationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Allocation_Students">
+    <End Type="SMS_DBModel.Student" Role="Student" Multiplicity="1" />
+    <End Type="SMS_DBModel.Allocation" Role="Allocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StdID" />
+      </Principal>
+      <Dependent Role="Allocation">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Allocation_Subjects">
+    <End Type="SMS_DBModel.Subject" Role="Subject" Multiplicity="1" />
+    <End Type="SMS_DBModel.Allocation" Role="Allocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="Sub_code" />
+      </Principal>
+      <Dependent Role="Allocation">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Allocation_Teachers">
+    <End Type="SMS_DBModel.Teacher" Role="Teacher" Multiplicity="1" />
+    <End Type="SMS_DBModel.Allocation" Role="Allocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="Allocation">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

@@ -1,0 +1,52 @@
+﻿﻿
+
+<div class="container form-border">
+    <center>
+        <h3 class="h3-heading"> New Subject - Teacher Allocation</h3>
+        <br />
+        <form id="subjectAssignmentForm">
+            <div class="form-group row-">
+                <label for="teacherId">Teacher Name</label>
+                <select class="form-control" id="teacherId" name="teacherId" required>
+                    <option value="" disabled selected>Teacher Name</option>
+                    @foreach (var teacher in ViewBag.TeacherIdList)
+                        {
+                        <option value="@teacher.Value">@teacher.Text</option>
+                    }
+                </select>
+                <div id="teacherID-error" class="text-danger"></div>
+            </div>
+
+            @*<div class="form-group">
+                <label for="teacherName">Teacher Name</label>
+                <input type="text" class="form-control">
+                <div id="teacherID-error" class="text-danger"></div>
+            </div>*@
+
+            <div class="form-group">
+                <label for="subjectCode">Subject Name</label>
+                <select class="form-control" id="subjectCode" name="subjectCode" required>
+                    <option value="" disabled selected>Subject Name</option>
+                    @foreach (var subject in ViewBag.Subjects)
+            {
+                        <option value="@subject.Value">@subject.Text</option>
+                    }
+                </select>
+            </div>
+
+            @*<div class="form-group">
+                <label for="SubjectName">Subject Name</label>
+                <input type="text" class="form-control">
+                <div id="teacherID-error" class="text-danger"></div>
+            </div>*@
+
+
+
+            <button type="submit" id="assignSubjectButton" class="btn btn-success">Assign Subject</button>
+
+           
+        </form>
+    </center>
+    <br />
+</div>
+<br />

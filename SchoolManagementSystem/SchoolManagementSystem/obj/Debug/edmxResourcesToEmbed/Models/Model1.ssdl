@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SMS_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Allocation">
+    <Key>
+      <PropertyRef Name="AllocationID" />
+    </Key>
+    <Property Name="AllocationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="StudentName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="TeacherID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="TeacherName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="SubjectID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="SubjectName" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
   <EntityType Name="Students">
     <Key>
       <PropertyRef Name="StdID" />
@@ -130,7 +142,56 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Allocation_Allocation">
+    <End Role="Allocation" Type="Self.Allocation" Multiplicity="1" />
+    <End Role="Allocation1" Type="Self.Allocation" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Allocation">
+        <PropertyRef Name="AllocationID" />
+      </Principal>
+      <Dependent Role="Allocation1">
+        <PropertyRef Name="AllocationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Allocation_Students">
+    <End Role="Students" Type="Self.Students" Multiplicity="1" />
+    <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StdID" />
+      </Principal>
+      <Dependent Role="Allocation">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Allocation_Subjects">
+    <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+    <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subjects">
+        <PropertyRef Name="Sub_code" />
+      </Principal>
+      <Dependent Role="Allocation">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Allocation_Teachers">
+    <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+    <End Role="Allocation" Type="Self.Allocation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teachers">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="Allocation">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="SMS_DBModelStoreContainer">
+    <EntitySet Name="Allocation" EntityType="Self.Allocation" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StudentSubjects" EntityType="Self.StudentSubjects" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StudentTeachers" EntityType="Self.StudentTeachers" Schema="dbo" store:Type="Tables" />
@@ -160,6 +221,22 @@
     <AssociationSet Name="FK__TeacherSu__Teach__45F365D3" Association="Self.FK__TeacherSu__Teach__45F365D3">
       <End Role="Teachers" EntitySet="Teachers" />
       <End Role="TeacherSubjects" EntitySet="TeacherSubjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Allocation" Association="Self.FK_Allocation_Allocation">
+      <End Role="Allocation" EntitySet="Allocation" />
+      <End Role="Allocation1" EntitySet="Allocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Students" Association="Self.FK_Allocation_Students">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="Allocation" EntitySet="Allocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Subjects" Association="Self.FK_Allocation_Subjects">
+      <End Role="Subjects" EntitySet="Subjects" />
+      <End Role="Allocation" EntitySet="Allocation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Allocation_Teachers" Association="Self.FK_Allocation_Teachers">
+      <End Role="Teachers" EntitySet="Teachers" />
+      <End Role="Allocation" EntitySet="Allocation" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

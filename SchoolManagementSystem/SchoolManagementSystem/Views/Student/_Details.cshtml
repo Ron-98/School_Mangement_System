@@ -1,0 +1,50 @@
+﻿@model SchoolManagementSystem.Models.Student
+
+
+
+<h3 class="h3-heading">Student Information</h3>
+<br />
+<div>
+    <p><strong>Student Name :</strong> @Model.FirstName @Model.LastName</p>
+    
+</div>
+
+<br />
+
+@if (Model.Subjects.Any())
+{
+    <table class="table table-bordered table-striped table-hover" style="text-align:center;width:60%;">
+        <thead >
+            <tr class="table-heading">
+
+                <th style="text-align:center;">Subject Name</th>
+                <th style="text-align:center;">Teacher(s)</th>
+
+            </tr>
+        </thead>
+        @foreach (var subject in Model.Subjects)
+        {
+            <tr>
+                <td>@subject.Name</td>
+                <td>
+                    @foreach (var teacher in subject.Teachers)
+                    {
+                        <p>@teacher.FirstName @teacher.LastName</p>
+                    }
+                </td>
+                
+            </tr>
+        }
+    </table>
+    <center>
+        <button class="btn btn-primary">@Html.ActionLink("Back to List", "Index")</button>
+    </center>
+}
+else
+{
+    <p>No subjects found for this student.</p>
+
+    <center>
+    <button class="btn btn-primary ">@Html.ActionLink("Back to List", "Index")</button>
+    </center>
+}

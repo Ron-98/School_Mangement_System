@@ -1,0 +1,9 @@
+﻿@model List<SelectListItem>
+
+@foreach (var teacher in Model)
+{
+    <option value="@teacher.Value">@teacher.Text</option>
+}
+
+
+

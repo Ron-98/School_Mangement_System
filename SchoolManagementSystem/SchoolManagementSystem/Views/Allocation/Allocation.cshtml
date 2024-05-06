@@ -1,0 +1,236 @@
+﻿﻿@model List<SchoolManagementSystem.Models.Subject>
+
+
+
+@{
+    ViewBag.Title = "Allocation";
+}
+
+<h3 class="h3-heading" style="text-align:center;">Allocation</h3>
+
+
+<div class="panel container-fluid">
+    <div class="panel-heading">
+        <center>
+            <button id="addNewAllocation" class="btn btn-primary">  Add New Teacher - Subject Allocation</button> ||
+            <button id="addNewStudentAllocation" class="btn btn-primary">  Add New Student - Teacher Allocation</button>
+        </center>
+
+        <hr class="alloc-hr" />
+    </div>
+</div>
+
+
+
+<div class="panel container-fluid" id="allocatedSubjects">
+    <h3 class="h3-heading" > Subject - Teacher Allocation Table</h3>
+        <div class="panel-heading">
+            <table class="table table-bordered table-striped table-hover" style="text-align:center;width:60%;">
+                <thead>
+                    <tr class="table-heading">
+
+
+                        <th style="text-align:center;">Subject ID</th>
+                        <th style="text-align:center;">Subject Name </th>
+                        <th style="text-align:center;">Teacher ID</th>
+                        <th style="text-align:center;">Teacher Name</th>
+
+                    </tr>
+                </thead>
+                @foreach (var subject in Model)
+            {
+                    <tr>
+                        <td>@subject.Sub_code </td>
+                        <td> @subject.Name </td>
+                        <td>
+                            @foreach (var teacher in subject.Teachers)
+                            {
+                                <span>@teacher.TeacherID <br /></span>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var teacher in subject.Teachers)
+                            {
+                                <span>@teacher.FirstName @teacher.LastName<br /></span>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+        <div id="allocatedSubjectsList">
+            <!--Allocated subjects will loaded here-->
+        </div>
+</div>
+
+<!--Allocating the subject to teacher-->
+<div id="assignSubjectForm" class="container-fluid" style="display:none">
+    @Html.Partial("_AssignSubjectToTeacher")
+</div>
+
+
+<!--For STUDENT-->
+<div class="panel container-fluid" id="allocatedStudents">
+    <h3 class="h3-heading" > Student - Teacher Allocation Table </h3>
+    <div class="panel-heading">
+        <p>
+            
+        </p>
+    </div>
+
+    <div id="allocatedStudentsList">
+        <!-- Allocated students will be loaded here -->
+    </div>
+</div>
+
+<!--Allocating the teacher and subject to student-->
+<div id="studentAssignmentForm" class="container-fluid" style="display:none">
+    @Html.Partial("_AssignSubjectAndTeacherToStudent")
+</div>
+
+
+<center>
+    <button id="backButton" class="btn btn-secondary" style="display:none">Back</button>
+</center>
+
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            $
+
+
+            //Allocation Details
+            $.ajax({
+                url: '/Allocation/AllocatedSubjects',
+                type: 'GET',
+                success: function (response) {
+                    $('#allocatedSubjectsList').html(response);
+                    $('#allocatedSubjects').show();
+                },
+                error: function () {
+                    //alert('An error occurred while fetching allocated subjects.');
+                }
+            });
+
+
+            //Subjecct Teacher allocation
+            $('#addNewAllocation').click(function () {
+                $('#assignSubjectForm').show();
+                $('#backButton').show();
+                $('#studentAssignmentForm').hide();
+                $('#allocatedSubjects').hide();
+                $('#allocatedStudents').hide();
+            });
+
+
+            //Back Button
+            $('#backButton').click(function () {
+                $('#allocatedSubjects').show();
+                $('#allocatedStudents').show();
+                
+                $('#backButton').hide();
+                $('#assignSubjectForm').hide();
+                $('#studentAssignmentForm').hide();
+            });
+
+            // Event listener for form submission
+            $('#subjectAssignmentForm').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission behavior
+                var teacherId = $('#teacherId').val();
+                var subjectCode = $('#subjectCode').val();
+                assignSubjectToTeacher(teacherId, subjectCode);
+            });
+
+            $('#addNewStudentAllocation').click(function () {
+                $('#studentAssignmentForm').show();
+                $('#backButton').show();
+                $('#allocatedStudents').hide();
+                $('#allocatedSubjects').hide();
+                $('#assignSubjectForm').hide();
+            });
+
+
+            function loadAllocatedSubjects() {
+                $.ajax({
+                    url: '/Allocation/AllocatedSubjects',
+                    type: 'GET',
+                    success: function (response) {
+                        $('#allocatedSubjectsList').html(response);
+                        $('#allocatedSubjects').show();
+                    },
+                    error: function () {
+                        //alert('An error occurred while fetching allocated subjects.');
+                    }
+                });
+            }
+
+
+
+            function assignSubjectToTeacher(teacherId, subjectCode) {
+                $.ajax({
+                    url: '/Allocation/AssignSubjectToTeacher',
+                    type: 'POST',
+                    data: { teacherId: teacherId, subjectCode: subjectCode },
+                    success: function (response) {
+                        if (response.success) {
+                            // Show success message using SweetAlert
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Subject assigned to Taecher successfully!',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+
+                                    // After confirming, load updated allocated subjects
+                                    loadAllocatedSubjects();
+                                    $('#backButton').hide();
+                                    $("#assignSubjectForm").hide();
+
+
+                                    $('#allocatedSubjects').show();
+                                    $('#allocatedStudents').show();
+
+                                }
+                            });
+                        } else {
+                            // Handle failure
+                            //alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle error
+                        Swal.fire('Error!', 'An error occurred while assigning the subject to the teacher.');
+                    }
+                });
+                
+            }
+            
+
+
+            
+            
+
+
+        });
+
+
+        
+
+      
+
+
+    </script>
+}
